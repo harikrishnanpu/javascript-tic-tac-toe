@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+
+    <style>
+
+        *{
+            font-family: sans-serif;
+        }
+
+        .cell-container{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+
+        .cell{
+            height: 90px;
+            border: 2px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <h3>Current Chance: <p id="currentChance">X</p></h3>
+
+
+    <div class="cell-container">
+
+        <div cellIndex="0" class="cell"></div>
+        <div cellIndex="1" class="cell"></div>
+        <div cellIndex="2" class="cell"></div>
+        <div cellIndex="3" class="cell"></div>
+        <div cellIndex="4" class="cell"></div>
+        <div cellIndex="5" class="cell"></div>
+        <div cellIndex="6" class="cell"></div>
+        <div cellIndex="7" class="cell"></div>
+        <div cellIndex="8" class="cell"></div>
+
+    </div>
+
+
+
+    <script>
+
+        const cells = document.querySelectorAll('.cell');
+        const currentChanceElem = document.getElementById('currentChance');
+        let currentChance = "X";
+        let userClickedArray = new Array(9).fill(null);
+
+
+        // Each element represents ==> winning position
+        let winningPos = [
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,4,8],
+        [2,4,6]
+    ]
+
+
+        console.log(userClickedArray)
+
+        cells.forEach((cell) =>{
+            cell.addEventListener('click', (e) =>{
+                handleClick(cell)
+            });
+        });
+
+
+        function handleClick (cell) {
+
+            let cellIndex = cell.getAttribute('cellIndex');
+
+            if(userClickedArray[cellIndex] !== null){
+                return alert('space already occupied')
+            }
+
+            userClickedArray[cellIndex] = currentChance;
+            console.log(userClickedArray)
+            cell.innerText = currentChance;
+            
+            
+            if(currentChance == "X"){
+                currentChance = "O"
+            }else{
+                currentChance = "X"
+            }
+            
+            currentChanceElem.innerText = currentChance
+            checkIsWinning();
+        }
+
+
+        function checkIsWinning() {
+
+            for(let i=0; i < winningPos.length; i++){
+
+                let WinningPosition = winningPos[i]; // gets each wining positions contain array
+                let cell1 = userClickedArray[WinningPosition[0]] 
+                let cell2 = userClickedArray[WinningPosition[1]]
+                let cell3 = userClickedArray[WinningPosition[2]]
+
+                if((cell1 !== null && cell2 !== null && cell3 !== null) && cell1 == cell2 && cell2 == cell3){
+                    alert(`${currentChance} Won`)
+                    resetGame();
+                    return;
+                }
+
+            }
+
+            if(userClickedArray.every(cell => Boolean(cell))){
+                alert('Draww!');
+                resetGame();
+                return;
+            }
+
+        }
+
+        function resetGame () {
+            currentChance = "X";
+            userClickedArray.fill(null);
+            cells.forEach((cell) => {
+                cell.innerText = ""
+            })
+        }
+        
+
+
+    </script>
+
+
+</body>
+</html>
