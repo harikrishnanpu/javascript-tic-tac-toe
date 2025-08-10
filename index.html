@@ -59,7 +59,7 @@
 
 
         // Each element represents ==> winning position
-        let winningPos = [
+        let conditions = [
         [0,1,2],
         [3,4,5],
         [6,7,8],
@@ -106,9 +106,10 @@
 
         function checkIsWinning() {
 
-            for(let i=0; i < winningPos.length; i++){
+            for(let i=0; i < conditions.length; i++){
 
-                let WinningPosition = winningPos[i]; // gets each wining positions contain array
+                let WinningPosition = conditions[i]; // gets each wining positions contain array
+                // [0,1,2]
                 let cell1 = userClickedArray[WinningPosition[0]] 
                 let cell2 = userClickedArray[WinningPosition[1]]
                 let cell3 = userClickedArray[WinningPosition[2]]
